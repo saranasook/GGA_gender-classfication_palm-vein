@@ -8,7 +8,7 @@ This repository contains the official PyTorch implementation for our framework *
 
 ## 📌 Repository Structure
 
-```text
+
 ├── gender_model.py          # Model architectures (DenseNet161_GGA_Binary, etc.)
 ├── gender_train.py                 # Core training loop and evaluation scripts
 ├── gender_inference.py             # Single-image inference pipeline script
@@ -34,7 +34,52 @@ Download the Dataset: Request and download the raw Near-Infrared (NIR) palm vein
 
 Generate CSV Metadata: Create train_data.csv and val_data.csv files. The dataset loader expects the CSV files to have no headers and be strictly mapped by column indices where:
 
-Column 1 (index 1): Full absolute local file path to the target image (img_dir).
+      - Column 1 (index 1): Full absolute local file path to the target image (img_dir).
 
-Column 2 (index 2): Gender string label (gender), denoted strictly as 'M' (Male) or 'F' (Female).
+      - Column 2 (index 2): Gender string label (gender), denoted strictly as 'M' (Male) or 'F' (Female).
 
+
+Example CSV Format:
+0,/absolute/path/to/VERA/images/001_L.png,M
+1,/absolute/path/to/VERA/images/002_F.png,F
+2,/absolute/path/to/VERA/images/003_L.png,M
+
+
+Note: Update the file paths inside train.py (train_dataset and val_dataset initializers) to point directly to your generated CSV files.
+
+
+🚀 How to Use
+1. Model Training & Evaluation
+To start the model training loop using the GGA-DenseNet-161 paradigm over 200 epochs, verify your dataset paths inside gender_rain.py and run:
+
+python train.py
+
+This script automatically evaluates validation metrics at every epoch, saves your optimal parameter configurations to best.pt, and outputs multi-case confusion and precision metrics for both demographic categories.
+
+
+2. Single-Image Inference
+To run a fast forward prediction pass on a single raw palm vein image file using a saved checkpoint weight array, use gender_inference.py:
+
+python gender_inference.py
+
+from inference import predict_single_image
+
+
+Inside gender_inference.py usage example:
+
+result = predict_single_image(
+    image_path="path/to/sample_palm.png",
+    model_path="path/to/best.pt"
+)
+# Output: {'probability': 0.9432, 'label_id': 1, 'gender': 'Female (F)'}
+
+
+
+🔬 Core Methodology & Performance
+Our GGA Module features parallel Spatial and Channel Attention gates deployed exclusively at the terminal feature bottleneck. This forces the model to ignore noisy peripheral hand contours and lock onto the central palm Region of Interest (ROI).
+
+Peak Configuration: GGA-DenseNet-161
+
+State-of-the-Art Accuracy: 94.39% on the VERA Database
+
+Key Visual Proof: Grad-CAM activations demonstrate precise spatial localization matching internal vascular geometry.
