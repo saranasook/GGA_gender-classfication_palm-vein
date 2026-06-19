@@ -269,3 +269,19 @@ val_dataset                         = PalmVeinDataset(csv_file='/project/lt20038
 train_loader                        = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader                          = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
+save_path                           = '/path/best.pt' ### path of saved weight
+
+######## Initialize Model, Loss, Optimizer ############
+model                               = DenseNet161_GGA_Binary().to(DEVICE)
+# model                               = DesnseNet161().to(DEVICE)
+# model                               = ResNet101_GGA_Binary().to(DEVICE)
+# model                               = ResNet101.to(DEVICE)
+
+############# Training model ##############
+run_training(model, train_loader, val_loader, epochs=200, save_path=save_path)
+
+############# Model evaluation #############
+model                               = load_model_weights(model, save_path, DEVICE)
+metrics                             = evaluate_gender_metrics(model, val_loader, DEVICE)
+metrics                             = evaluate_gender_metrics(model, train_loader, DEVICE)
+metrics                             = evaluate_gender_metrics_all(model, train_loader,val_loader, DEVICE)
