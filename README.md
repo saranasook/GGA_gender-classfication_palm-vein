@@ -10,7 +10,13 @@ This repository contains the official PyTorch implementation for our framework *
 
 ```text
 ├── gender_model.py          # Model architectures (DenseNet161_GGA_Binary, etc.)
-├── train.py                 # Core training loop and evaluation scripts
-├── inference.py             # Single-image inference pipeline script
+├── gender_train.py                 # Core training loop and evaluation scripts
+├── gender_inference.py             # Single-image inference pipeline script
 ├── requirements.txt         # Required Python dependencies
 └── README.md                # Project documentation
+
+
+🛠️ Installation
+1. Clone the Repository
+git clone [https://github.com/your-username/palmvein-gga-gender.git](https://github.com/your-username/palmvein-gga-gender.git)
+cd palmvein-gga-gender
