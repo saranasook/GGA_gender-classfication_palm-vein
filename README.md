@@ -8,7 +8,7 @@ This repository contains the official PyTorch implementation for our framework *
 
 ## 📌 Repository Structure
 
-
+```text
 ├── gender_model.py          # Model architectures (DenseNet161_GGA_Binary, etc.)
 ├── gender_train.py                 # Core training loop and evaluation scripts
 ├── gender_inference.py             # Single-image inference pipeline script
